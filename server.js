@@ -1,6 +1,8 @@
 /* require: el modulo express */
 const express = require('express');
 const hbs = require('hbs');
+/* archivo de helpers hbs */
+require('./hbs/helpers');
 
 /* enviar todo a una variable */
 const app = express();
@@ -21,8 +23,11 @@ app.use(express.static(__dirname + '/public'));
 /* linea para que el navegador sepa que hacer y reconozca el plugin como principal */
 app.set('view engine', 'hbs');
 
+
 /* HBS:PARCIAL, permite que un codigo siempre este en cualquier pagina, reutilizacion de codigo */
 hbs.registerPartials(__dirname + '/views/Partials');
+
+
 /* peticiones */
 
 /*solamente funciona cuando tiene un / ,despues de eso ya no */
@@ -38,9 +43,15 @@ app.get('/', function(req, res) {
 
 
     /* renderisa el home.hbs , manda los datos a las variables nombre, date*/
+    /* EJEMPLO POR VARIABLE */
+    // res.render('home', {
+    //     nombre: 'Nicolas',
+    //     datos: new Date().getFullYear()
+    // });
+
+    /* EJEMPLO POR HBS.HELPERS */
     res.render('home', {
-        nombre: 'Nicolas',
-        datos: new Date().getFullYear()
+        nombre: 'nicolas'
     });
 
 
@@ -59,9 +70,7 @@ app.get('/about', function(req, res) {
 
 
     /* renderisa el home.hbs , manda los datos a las variables nombre, date*/
-    res.render('about', {
-        datos: new Date().getFullYear()
-    });
+    res.render('about');
 
 
 });
