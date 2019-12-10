@@ -1,5 +1,6 @@
 /* require: el modulo express */
 const express = require('express');
+const hbs = require('hbs');
 
 /* enviar todo a una variable */
 const app = express();
@@ -13,26 +14,60 @@ const port = 3000;
 /* NOTA: Tener cuidado con las peticiones de / sin dato porque pueden chocar, ya sea que se muestre la pagina o se muestre la peticion */
 
 /* Midellware Publico */
+/* __dirname: Busca la carpeta en un directorio global sin importar en donde se encuentre */
 app.use(express.static(__dirname + '/public'));
 
+/* HBS: permite el redireccionamiento entre paginas, de manera dinamica */
+/* linea para que el navegador sepa que hacer y reconozca el plugin como principal */
+app.set('view engine', 'hbs');
 
-
+/* HBS:PARCIAL, permite que un codigo siempre este en cualquier pagina, reutilizacion de codigo */
+hbs.registerPartials(__dirname + '/views/Partials');
 /* peticiones */
 
 /*solamente funciona cuando tiene un / ,despues de eso ya no */
-/* app.get('/', function(req, res) {
+app.get('/', function(req, res) {
     // res.send('Hello Word');
-    let json = {
-        nombre: 'Nicolas',
-        edad: 21,
-        url: req.url
-    };
+    // let json = {
+    //     nombre: 'Nicolas',
+    //     edad: 21,
+    //     url: req.url
+    // };
 
-    res.send(json);
-}); */
+    // res.send(json);
+
+
+    /* renderisa el home.hbs , manda los datos a las variables nombre, date*/
+    res.render('home', {
+        nombre: 'Nicolas',
+        datos: new Date().getFullYear()
+    });
+
+
+});
+
+
+app.get('/about', function(req, res) {
+    // res.send('Hello Word');
+    // let json = {
+    //     nombre: 'Nicolas',
+    //     edad: 21,
+    //     url: req.url
+    // };
+
+    // res.send(json);
+
+
+    /* renderisa el home.hbs , manda los datos a las variables nombre, date*/
+    res.render('about', {
+        datos: new Date().getFullYear()
+    });
+
+
+});
 
 /*solamente funciona cuando tiene un / + valor ,despues de eso ya no */
-app.get('/data', function(req, res) {
+/* app.get('/data', function(req, res) {
     res.send('Hola data');
     // let json = {
     //     nombre: 'Nicolas',
@@ -41,7 +76,7 @@ app.get('/data', function(req, res) {
     // };
 
     // res.send(json);
-});
+}); */
 
 app.listen(port, () => {
     console.log(`SERVIDOR INICIADO EN EL PUERTO: ${port}`);
