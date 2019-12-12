@@ -8,7 +8,7 @@ require('./hbs/helpers');
 const app = express();
 
 /* datos necesarios para la configuracion */
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 
 /* Midellware: son peticiones, callback de cualquier url que queramos ver*/
